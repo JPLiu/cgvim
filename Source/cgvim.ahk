@@ -1,4 +1,5 @@
 ;ccaiai vim hijack
+#NoTrayIcon
 cpath =
 Loop, %0%
 {
