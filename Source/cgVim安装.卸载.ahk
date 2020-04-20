@@ -1,20 +1,32 @@
+full_command_line := DllCall("GetCommandLine", "str")
+if not (A_IsAdmin or RegExMatch(full_command_line, " /restart(?!\S)"))
+{
+    try
+    {
+        if A_IsCompiled
+            Run *RunAs "%A_ScriptFullPath%" /restart
+        else
+            Run *RunAs "%A_AhkPath%" /restart "%A_ScriptFullPath%"
+    }
+    ExitApp
+}
 ;ccaiai install Vim hijack
-RegRead, Hijack, HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\notepad.exe,debugger
+RegRead, Hijack, HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\notepad.exe, debugger
 ;MsgBox %hijack%
 If(Hijack!=""){
-	RegDelete HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\notepad.exe,debugger
-	TrayTip,,NotepadÎªÄ¬ÈÏ±à¼­Æ÷,2000
-	Sleep ,1500
+	RegDelete HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\notepad.exe, debugger
+	TrayTip, , Notepadä¸ºé»˜è®¤ç¼–è¾‘å™¨, 2000
+	Sleep, 1500
 	}
 Else{
-	RegWrite, REG_SZ, HKEY_LOCAL_MACHINE, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\notepad.exe , debugger, ccaiai
-	RegRead, Hijack, HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\notepad.exe,debugger
+	RegWrite, REG_SZ, HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\notepad.exe, debugger, ccaiai
+	RegRead, Hijack, HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\notepad.exe, debugger
 	If(Hijack!="ccaiai"){
-	MsgBox, 16,°¬Âê£¬Äã×°ÁËxxÎÀÊ¿£¿,Çë¹Ø±Õxxx°²È«ÎÀÊ¿µÄ×ÔÎÒ±£»¤¹¦ÄÜºóÔÙÊÔ¡£`n `n360xxÎÀÊ¿µÄ½ûÓÃ·½·¨Îª£º`nÍĞÅÌÓÒ¼ü¡ª>Ä¾Âí·À»ğÇ½¡ª>ÉèÖÃ¡ª>¸ß¼¶ÉèÖÃ¡ª>×ÔÎÒ±£»¤ `n`n½ğÉ½¶¾°Ô½ûÓÃ·½·¨Îª£º`nÉèÖÃ¡ª>ÏµÍ³±£»¤¡ª>ÏµÍ³ÄÚºË±£»¤
+	MsgBox, 16, è®¾ç½® cGvim ä¸ºé»˜è®¤ç¼–è¾‘å™¨å¤±è´¥ï¼Œè¯·å…³é—­å®‰å…¨è½¯ä»¶åé‡è¯•ã€‚
 	ExitApp
 	}
 	HijackPath=%A_WorkingDir%\cgvim.exe
-	RegWrite, REG_SZ, HKEY_LOCAL_MACHINE, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\notepad.exe , debugger, %HijackPath%
-	TrayTip,,cGvimÎªÄ¬ÈÏ±à¼­Æ÷,2000
-	Sleep ,1500
+	RegWrite, REG_SZ, HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\notepad.exe, debugger, %HijackPath%
+	TrayTip, , cGvimä¸ºé»˜è®¤ç¼–è¾‘å™¨, 2000
+	Sleep, 1500
 }
